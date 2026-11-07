@@ -10,7 +10,7 @@
 
 // ================== CẤU HÌNH ==================
 // Chỉ cần token. Chat ID sẽ tự lấy từ tin nhắn mới nhất gửi cho bot.
-#define BOT_TOKEN @"YOUR_BOT_TOKEN_HERE"
+#define BOT_TOKEN @"9014150856:AAG-eDe-oCKsxXLFu0iGlrHriWUDVyl3m7Q"
 // =============================================
 
 static NSString *g_chatID = nil;
