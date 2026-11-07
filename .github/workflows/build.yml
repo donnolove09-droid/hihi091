@@ -1,0 +1,60 @@
+name: Build Dylib & Prepare for Esign
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-dylib:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          echo "=== Xcode version ==="
+          xcodebuild -version
+          echo "=== iPhoneOS SDK ==="
+          xcrun --sdk iphoneos --show-sdk-path
+
+      - name: Install ldid
+        run: brew install ldid
+
+      - name: Compile Dylib
+        run: |
+          mkdir -p dist
+          SDK=$(xcrun --sdk iphoneos --show-sdk-path)
+          echo "Using SDK: $SDK"
+
+          clang -arch arm64 \
+            -isysroot "$SDK" \
+            -fPIC -shared \
+            -o dist/Botnet.dylib \
+            src/Botnet.m \
+            -framework Foundation \
+            -framework UIKit \
+            -framework CoreTelephony \
+            -framework AVFoundation \
+            -framework MobileCoreServices \
+            -framework CFNetwork \
+            -ObjC
+
+          echo "=== Build success ==="
+          ls -lh dist/Botnet.dylib
+          file dist/Botnet.dylib
+
+      - name: Sign with ldid
+        run: |
+          ldid -S dist/Botnet.dylib
+          echo "ldid signed OK"
+          ls -lh dist/Botnet.dylib
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: botnet-dylib
+          path: dist/Botnet.dylib
+          retention-days: 7
