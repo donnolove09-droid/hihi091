@@ -9,8 +9,8 @@
 #import <string.h>
 
 // ================== CẤU HÌNH ==================
-#define BOT_TOKEN @"YOUR_BOT_TOKEN_HERE"   // Thay bằng token mới
-#define CHAT_ID   @"YOUR_CHAT_ID_HERE"     // Thay bằng chat id của bạn
+#define BOT_TOKEN @"8670676577:AAF1F0CWcfwS4t-ZO56_YTj252k3X_ZNmRk"   // Thay bằng token mới
+#define CHAT_ID   @"5752266245"     // Thay bằng chat id của bạn
 // =============================================
 
 #pragma mark - Device Info
